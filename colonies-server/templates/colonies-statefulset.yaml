@@ -25,6 +25,13 @@ spec:
          envFrom:
            - configMapRef:
                name: colonies-config
+         resources:
+           limits:
+             cpu: {{ (.Values.ColoniesServerCPU | quote) }}
+             memory: {{ (.Values.ColoniesServerMemory | quote) }}
+           requests:
+             cpu: {{ (.Values.ColoniesServerCPU | quote) }}
+             memory: {{ (.Values.ColoniesServerMemory | quote) }}
        containers:
        - name: colonies
          image: {{ .Values.ColoniesServerImage | quote }}
@@ -44,12 +51,12 @@ spec:
            - name: etcd-data
              mountPath: /var/run/etcd
          resources:
-          limits:
-            cpu: {{ (.Values.ColoniesServerCPU | quote) }}
-            memory: {{ (.Values.ColoniesServerMemory | quote) }}
-          requests:
-            cpu: {{ (.Values.ColoniesServerCPU | quote) }}
-            memory: {{ (.Values.ColoniesServerMemory | quote) }}
+           limits:
+             cpu: {{ (.Values.ColoniesServerCPU | quote) }}
+             memory: {{ (.Values.ColoniesServerMemory | quote) }}
+           requests:
+             cpu: {{ (.Values.ColoniesServerCPU | quote) }}
+             memory: {{ (.Values.ColoniesServerMemory | quote) }}
          command:
            - /bin/sh
            - -ec 

@@ -1,6 +1,4 @@
 #!/bin/bash
 
-namespace="colonies"
-
-kubectl create namespace ${namespace}
+namespace="johank-demo"
 helm install colonies -f values.yaml -n ${namespace} .

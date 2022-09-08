@@ -1,24 +1,15 @@
-apiVersion: networking.k8s.io/v1 
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: colonies-ingress
   annotations:
-    kubernetes.io/ingress.class: traefik
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    traefik.ingress.kubernetes.io/router.middlewares: colonies-redirect@kubernetescrd
+    nginx.ingress.kubernetes.io/proxy-body-size: "64m"
 spec:
   rules:
-  - host: {{ .Values.ColoniesServerHostname | quote }} 
+  - host: {{ .Values.ColoniesServerHostname }}
     http:
       paths:
-        - pathType: Prefix 
-          path: /
-          backend:
-            service:
-              name: colonies-service
-              port: 
-                number: 80
-  tls:
-    - secretName: colonies-tls
-      hosts:
-        - {{ .Values.ColoniesServerHostname | quote }}
+      - path: /
+        backend:
+          serviceName: colonies-service
+          servicePort: 80 

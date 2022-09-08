@@ -1,9 +1,9 @@
 # General settings
-StorageClassName: longhorn
+StorageClassName: rook-ceph-fs
 Timezone: "Europe/Stockholm"
 
 # Colonies server settings
-ColoniesServerHostname: "colonies-api.colonyos.io"
+ColoniesServerHostname: "colonies-johank.icedc.se"
 ColoniesServerReplicas: 3 
 ColoniesServerImage: "colonyos/colonies:latest"
 ColoniesServerID: "039231c7644e04b6895471dd5335cf332681c54e27f81fac54f9067b3f2c0103"
@@ -17,17 +17,3 @@ DBImage: timescale/timescaledb:latest-pg12
 DBCPU: "3000m"
 DBMemory: "10000Mi"
 DBStorage: 10Gi
-
-# Colonies monitoring server settings
-ColoniesMonitorIntervall: 2
-ColoniesServerInternalHostname: "colonies-service.colonies"
-
-# Prometheus settings 
-PrometheusImage: prom/prometheus
-PrometheusStorage: 10Gi
-ScrapeIntervall: 2s
-ColoniesMonitoringServer: coloniesmonitor-service.colonies
-
-# Grafana settings
-GrafanaImage: grafana/grafana-oss:latest-ubuntu
-GrafanaServerHostname: "grafana.colonyos.io"
