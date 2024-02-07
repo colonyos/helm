@@ -30,6 +30,14 @@ spec:
          - name: colonies-prometheus-storage-volume 
            mountPath: /prometheus
            subPath: ""
+         {{ if .Values.PrometheusResourceLimit }}
+         resources:
+            limits:
+              memory: {{ (.Values.PrometheusMemory | quote) }}
+            requests:
+              cpu: {{ (.Values.PrometheusCPU | quote) }}
+              memory: {{ (.Values.PrometheusMemory | quote) }}
+         {{ end }}
        containers:
        - name: colonies-prometheus
          args:

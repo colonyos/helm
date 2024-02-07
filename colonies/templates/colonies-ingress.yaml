@@ -2,10 +2,8 @@
 apiVersion: networking.k8s.io/v1 
 kind: Ingress
 metadata:
-  name: colonies-ingress
-  annotations:
-    kubernetes.io/ingress.class: {{ .Values.IngressController }}
-    cert-manager.io/cluster-issuer: letsencrypt-prod
+  name: johank-colonies-ingress
+  namespace: johank-colonies
 spec:
   rules:
   - host: {{ .Values.ColoniesServerHostname | quote }} 
@@ -21,5 +19,5 @@ spec:
   tls:
     - hosts:
         - {{ .Values.ColoniesServerHostname | quote }}
-      secretName: colonies-tls
+      secretName: johank-colonies-tls-secret
 {{ end }}

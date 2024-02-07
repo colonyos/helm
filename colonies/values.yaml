@@ -1,25 +1,25 @@
 # General settings
 #StorageClassName: longhorn 
-StorageClassName: local-path 
+StorageClassName: rook-ceph-fs 
 Timezone: "Europe/Stockholm"
 
 Ingress: true 
 ExposeNodePort: false
 NodePort: 30000  # must be in range 30000-32767 
-# IngressController: nginx
-IngressController: traefik 
-ColoniesServerHostname: "colonies.colonyos.io"
+IngressController: nginx
+#IngressController: traefik 
+ColoniesServerHostname: "johank-colonies.icedc.se"
 
   # Colonies server settings
-ColoniesDBHost: "colonies-postgres-service.colonyos"
+ColoniesDBHost: "colonies-postgres-service.johank-colonies"
 ColoniesDBPort: "5432"
-ColoniesServerReplicas: 3 
-ColoniesServerImage: "colonyos/colonies:v1.5.8"
+ColoniesServerReplicas: 1
+ColoniesServerImage: "colonyos/colonies:v1.7.21"
 ColoniesServerID: "a92bea7c9bccd587dbbd2fff02c1aeed3e37772b9f42b066926d18710f4aecff"
 ColoniesServerPrvKey: "5437af8dec12c6654a3e08425bc0ef9c8c4063a846c73f96bb7675a7f4ddd6ad"
-ColoniesResourceLimit: false 
-ColoniesServerCPU: "12000m" 
-ColoniesServerMemory: "16000Mi" 
+ColoniesResourceLimit: true
+ColoniesServerCPU: "2000m" 
+ColoniesServerMemory: "2000Mi" 
 ColoniesServerProfiler: false
 ColoniesServerProfilerPort: 6060 
 ColoniesCronCheckerPeriod: "1000"
@@ -33,25 +33,25 @@ ColoniesRetentionPolicy: 604800 # 60 seconds * 60 * 24 * 7 = 604800 (1 week)
 # PostgreSQL settings
 DBUser: "postgres"
 DBPassword: "rFcLGNkgsNtksg6Pgtn9CumL4xXBQ7"
-DBImage: timescale/timescaledb:2.10.0-pg12
-DBResourceLimit: false
+DBImage: timescale/timescaledb:2.13.0-pg16
+DBResourceLimit: true 
 DBCPU: "1000m"
 DBMemory: "1000Mi"
-DBStorage: 10Gi
+DBStorage: 1Gi
 TimescaleDB: true
 
 # Colonies monitoring server settings
 ColoniesMonitorInterval: 10
-ColoniesServerInternalHostname: "colonies-service.colonyos"
-ColoniesMonitorResourceLimit: false
+ColoniesServerInternalHostname: "colonies-service.johank-colonies"
+ColoniesMonitorResourceLimit: true 
 ColoniesMonitorServerCPU: "1000m"
-ColoniesMonitorServerMemory: "8Gi"
+ColoniesMonitorServerMemory: "3Gi"
 
 # Prometheus settings 
 PrometheusImage: prom/prometheus
-PrometheusStorage: 10Gi
-PrometheusResourceLimit: false
+PrometheusStorage: 1Gi
+PrometheusResourceLimit: true
 PrometheusCPU: "1000m"
-PrometheusMemory: "8Gi"
+PrometheusMemory: "2Gi"
 ScrapeIntervall: 10s
-ColoniesMonitoringServer: colonies-monitor-service.colonyos
+ColoniesMonitoringServer: colonies-monitor-service.johank-colonies

@@ -1,5 +1,5 @@
 #!/bin/bash
 
-namespace="colonyos"
+namespace="johank-colonies"
 
 helm uninstall colonies -n ${namespace}

@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: johank-colonies-cert
+  namespace: johank-colonies
+spec:
+  secretName: johank-colonies-tls-secret
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt
+  commonName: johank-colonies.icedc.se
+  dnsNames:
+  - johank-colonies.icedc.se
