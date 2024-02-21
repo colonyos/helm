@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  colonies:
+  - apiVersion: v1
+    appVersion: 0.0.1
+    created: "2024-02-21T16:46:46.844442044Z"
+    description: A helm chart for deploying Colonies servers
+    digest: ac58e59d97089ca462ad8473e3f3d9f9667e0745c681de306528bff7803201f8
+    name: colonies
+    type: application
+    urls:
+    - https://github.com/colonyos/helm/releases/download/colonies-0.0.1/colonies-0.0.1.tgz
+    version: 0.0.1
+generated: "2024-02-21T16:46:46.844451813Z"
