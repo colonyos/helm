@@ -23,9 +23,8 @@ spec:
      spec:
        initContainers:
        - name: "init-datapath"
-         image: alpine:3.16.2 
-         command: ["chown", "-R", "65534:65534", "/prometheus"]
-         command: ["/bin/chmod","-R","777","/prometheus"]
+         image: alpine:3.16.2
+         command: ["/bin/sh", "-c", "chown -R 65534:65534 /prometheus && chmod -R 777 /prometheus"]
          volumeMounts:
          - name: colonies-prometheus-storage-volume 
            mountPath: /prometheus
