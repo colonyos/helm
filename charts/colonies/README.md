@@ -33,8 +33,8 @@ Edit `values.yaml` and type:
 | ColoniesDBPort                  | PostgreSQL server port.                                                                                          | 5432                                 |
 | ColoniesServerReplica           | Number of Colonies servers to start. See High-availability table below.                                          | 3                                    |
 | ColoniesServerImage             | Colonies server Docker image                                                                                     | "colonyos/colonies:latest"           |
-| ColoniesServerID                | ECDSA ID (public key). Generate a new ID using "colonies keychain generate" command.                             | "03923d531c54e27f81fac54f....."      |
-| ColoniesServerPrvKey            | ECDSA ID (public key). Generate a new ID using "colonies keychain generate" command.                             | "fcc79953661592dc34d30004....."      |
+| ColoniesServerID                | ECDSA ID (public key). Generate a new ID using "colonies key generate" command.                                  | "03923d531c54e27f81fac54f....."      |
+| ColoniesServerPrvKey            | ECDSA ID (private key). Generate a new ID using "colonies key generate" command.                                 | "fcc79953661592dc34d30004....."      |
 | ColoniesResourceLimit           | Enable CPU and memory limits.                                                                                    | true/false                           |
 | ColoniesServerCPU               | CPU request.                                                                                                     | "4000m"                              |
 | ColoniesServerMemory            | Memory request and limit.                                                                                        | "16000Mi"                            |
