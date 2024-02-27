@@ -21,4 +21,15 @@ entries:
     urls:
     - https://github.com/colonyos/helm/releases/download/colonies-0.0.1/colonies-0.0.1.tgz
     version: 0.0.1
-generated: "2024-02-23T11:14:34.85874424Z"
+  kubeexecutor:
+  - apiVersion: v1
+    appVersion: 0.0.1
+    created: "2024-02-27T14:48:35.98737581Z"
+    description: A Helm chart for a K8s kubeexecutor
+    digest: 81146cb37ac75cf9c4810b6e8a2ad8f16aa4d649ef4256497b3eed67cc827891
+    name: kubeexecutor
+    type: application
+    urls:
+    - https://github.com/colonyos/helm/releases/download/kubeexecutor-0.0.1/kubeexecutor-0.0.1.tgz
+    version: 0.0.1
+generated: "2024-02-27T14:48:35.987404526Z"
