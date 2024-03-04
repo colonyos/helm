@@ -2,11 +2,11 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: kubeexecutor-role-binding
-  namespace: {{ .Values.ExecutorK8sNamespace }}
+  namespace: {{ .Release.Namespace }}
 subjects:
 - kind: ServiceAccount
   name: kubeexecutor-account
-  namespace: {{ .Values.ExecutorK8sNamespace }}
+  namespace: {{ .Release.Namespace }}
   apiGroup: ""
 roleRef:
   kind: Role
