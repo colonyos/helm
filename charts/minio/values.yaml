@@ -1,0 +1,7 @@
+ConsoleHostname: "minio.colonyos.io"
+APIHostname: "s3.colonyos.io"
+Username: "admin"
+Password: "TODO"
+Image: "minio/minio:latest"
+Timezone: "Europe/Stockholm"
+StorageSize: "40Gi"
