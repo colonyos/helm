@@ -42,4 +42,15 @@ entries:
     urls:
     - https://github.com/colonyos/helm/releases/download/kubeexecutor-0.0.1/kubeexecutor-0.0.1.tgz
     version: 0.0.1
-generated: "2024-03-04T07:29:10.858979385Z"
+  minio:
+  - apiVersion: v1
+    appVersion: 0.0.1
+    created: "2024-07-03T08:43:15.266123794Z"
+    description: A helm chart for setting up a Minio server
+    digest: 3598b9f4533da3f351cef1effe612a5fbccb9222e541d89c216620a00f433945
+    name: minio
+    type: application
+    urls:
+    - https://github.com/colonyos/helm/releases/download/minio-0.0.1/minio-0.0.1.tgz
+    version: 0.0.1
+generated: "2024-07-03T08:43:15.266135816Z"
