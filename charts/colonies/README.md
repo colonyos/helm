@@ -24,7 +24,6 @@ Edit `values.yaml` and type:
 | StorageClassName                | Storage class to use for K8s persistant volumes.                                                                 | local-path, longhorn, ebs-sc         |
 | Timezone                        | Timezone.                                                                                                        | "Europe/Stockholm"                   |
 | Ingress                         | Enable/disable K8s ingress controller. If enabled, ColoniesServerHostName must be specified.                     | true/false                           |
-| IngressAnnotations              | If Ingress should be annotated with kubernetes.io/ingress.class and cert-manager.io/cluster-issuer.              | true/false                           |
 | IngressController               | Ingress controller to use.                                                                                       | nginx or traefik                     |
 | ColoniesServerHostname          | Host name to use ingress controller. A TLS cert will be automatically obtained by Cert manager.                  | "colones.colonyos.io"                |
 | ExposeNodePort                  | Enable/disable nodeports.                                                                                        | true/false                           |

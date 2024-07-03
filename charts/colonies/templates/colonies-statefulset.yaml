@@ -25,14 +25,6 @@ spec:
          envFrom:
            - configMapRef:
                name: colonies-config
-         {{ if .Values.ColoniesResourceLimit }}
-         resources:
-          limits:
-            memory: {{ (.Values.ColoniesServerMemory | quote) }}
-          requests:
-            cpu: {{ (.Values.ColoniesServerCPU | quote) }}
-            memory: {{ (.Values.ColoniesServerMemory | quote) }}
-         {{ end }}
        containers:
        - name: colonies
          image: {{ .Values.ColoniesServerImage | quote }}
@@ -61,6 +53,10 @@ spec:
             cpu: {{ (.Values.ColoniesServerCPU | quote) }}
             memory: {{ (.Values.ColoniesServerMemory | quote) }}
          {{ end }}
+         lifecycle:
+            preStop:
+              exec:
+                command: ["rm", "-rf", "/var/run/etcd"]
          command:
            - /bin/sh
            - -ec 
