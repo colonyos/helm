@@ -1,5 +1,19 @@
 # Introduction
-This Helm chart installs a Sleep executor.
+This Helm chart installs a Kube Executor.
+
+## Authentication 
+```console
+INFO[0000] Generated new private key  
+Id=5cec61bf8df8f595d72b58ebdfa8f7d7780558f12aba0feaf1769eb889fadd60 
+PrvKey=951d80c64cdb3918cb089c6ad1996c249319451afeffd77b8bebba4c8b00cf7f
+```
+
+## Register executor
+```console
+colonies executor add --spec kube-executor.json --executorid 5cec61bf8df8f595d72b58ebdfa8f7d7780558f12aba0feaf1769eb889fadd60 --approve
+```
+
+Add PrvKey to `values.yaml` under `ColoniesPrvKey`.
 
 # Installation
 Edit `values.yaml` and type:

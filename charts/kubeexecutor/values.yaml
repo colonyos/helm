@@ -1,40 +1,81 @@
 Replicas: 1
 StorageClass: "TODO"
-ExecutorDockerImage: "colonyos/kubeexecutor:v1.0.2"
-ColoniesServerHost: "server.colonyos.io"
+ExecutorK8sName: "kubeexecutor"
+ExecutorK8sNamespace: "kubeexecutor"
+ExecutorK8sPVC: "kubeexecutor-pvc"
+
+ExecutorDockerImage: "colonyos/kubeexecutor:v1.0.9"
+
+# Colonies server settings
+ColoniesServerHost: "TODO"
 ColoniesServerPort: 443
 ColoniesTLS: true
-ColoniesColonyName: "hpc"
+ColoniesColonyName: "TODO"
 ColoniesColonyPrvKey: ""
 ColoniesExecutorName: "icekube"
 ColoniesPrvKey: "TODO"
-AWSS3Endpoint: "TODO, e.g. s3.colonyos.io:443"
+AWSS3Endpoint: "TODO"
 AWSS3AccessKey: "TODO"
 AWSS3SecretKey: "TODO"
 AWSS3Region: ""
-AWSS3Bucket: "hpc"
+AWSS3Bucket: "TODO"
 AWSS3TLS: "true"
 AWSS3SkipVerify: "false"
-ExecutorResourceLimit: false
+
+# If ExecutorResourceLimit set to true, ExecutorMemory will limit memory usage
+# for the K8s Executor, and ExecutorCPU will set a request on CPU.
+ExecutorResourceLimit: true
+
+# Memory limit for the K8s Executor (not by spawned processes)
 ExecutorMemory: "6000Mi"
+
+# CPU request by the K8s Executor (not by spawned processes) 
 ExecutorCPU: "2000m"
-ExecutorType: "ice-kubeexecutor"
-ExecutorSWName: "colonyos/kubeexecutor"
-ExecutorSWType: "kube-executor"
-ExecutorSWVersion: "22.05.08"
-ExecutorHWCPU: "250000m"
-ExecutorHWModel: "ICE Connect EKS"
-ExecutorHWNodes: "29"
-ExecutorHWMem: "4360000Mi"
-ExecutorHWStorage: "10Gi"
+
+# Shared storage used by the K8s Executor and all spawned processes
+ExecutorStorage: "60Gi"
+
+# Path on the shared space, where ColonyFS files are stored
+ExecutorFSDir: "/cfs"
+
+# This one is not used? Executor type is derived from executor registration?
+ExecutorType: "container-executor"
+
+# Meta-data only below
+ExecutorLocationDesc: "TODO"
+ExecutorLocationLong: ""
+ExecutorLocationLat: ""
+ExecutorSWName: ""
+ExecutorSWType: ""
+ExecutorSWVersion: ""
+
+# Total number of cores available to running processes. The K8s Executor will not 
+# start processes if there is not enough CPU resources available in the Kubernetes cluster
+# or namespace. 
+#
+# Note that this value excludes the CPU limit set by the executor itself, such 
+# as that defined by the ExecutorMemory setting, assuming ExecutorResourceLimit is set.
+# Therefore, the total CPUs in the cluster must be greater than the sum of 
+# ExecutorCPU and ExecutorHWTotalCPU.
+ExecutorHWTotalCPU: "20000m"
+
+# Total memory available for running processes. The K8s Executor will not start 
+# processes if there is not enough available memory. The specified value must not 
+# exceed the available memory in the cluster or the namespace quota limit. 
+#
+# Note that this value excludes the memory utilized by the executor itself, such 
+# as that defined by the ExecutorMemory setting, assuming ExecutorResourceLimit is set.
+# Therefore, the total memory in the cluster must be greater than the sum of 
+# ExecutorMemory and ExecutorHWTotalCPU.
+ExecutorHWTotalMem: "20000Mi"  
+
+
+# GPU resources
 ExecutorHWGPUCount: "4"
-ExecutorHWGPUMem: "12GiB"
+ExecutorHWGPUMem: "2000Mi"
 ExecutorHWGPUNodesCount: "4"
 ExecutorHWGPUName: "nvidia_2080ti"
-ExecutorLocationDesc: "ICE Datacenter, Sweden"
-ExecutorLocationLong: "65.61204640586546"
-ExecutorLocationLat: "22.132275667285477"
-ExecutorFSDir: "/cfs"
-ExecutorK8sName: "kubeexecutor"
-ExecutorK8sNamespace: "johank-kubeexecutor"
-ExecutorK8sPVC: "kubeexecutor-pvc"
+
+# Meta-data below
+ExecutorHWModel: ""
+ExecutorHWNodes: "1"

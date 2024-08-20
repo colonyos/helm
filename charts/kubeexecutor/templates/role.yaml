@@ -1,7 +1,7 @@
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ .Values.ExecutorK8sNamespace }}
   name: kubeexecutor-role
 rules:
 - apiGroups:

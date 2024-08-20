@@ -26,7 +26,7 @@ spec:
       volumes:
         - name: cfs-volume 
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-pvc
+            claimName: {{ .Values.ExecutorK8sPVC }}
       containers:
       - name: kubeexecutor-container
         image: {{ .Values.ExecutorDockerImage | quote }}
@@ -80,16 +80,16 @@ spec:
           value: "{{ .Values.ExecutorSWType }}"
         - name: EXECUTOR_SW_VERSION
           value: "{{ .Values.ExecutorSWVersion }}"
-        - name: EXECUTOR_HW_CPU
-          value: "{{ .Values.ExecutorHWCPU }}"
-        - name: EXECUTOR_HW_MODEL
-          value: "{{ .Values.ExecutorHWModel }}"
+        - name: EXECUTOR_HW_TOTAL_CPU
+          value: "{{ .Values.ExecutorHWTotalCPU }}"
+        - name: EXECUTOR_HW_TOTAL_MEM
+          value: "{{ .Values.ExecutorHWTotalMem }}"
         - name: EXECUTOR_HW_NODES
           value: "{{ .Values.ExecutorHWNodes }}"
-        - name: EXECUTOR_HW_MEM
-          value: "{{ .Values.ExecutorHWMem }}"
+        - name: EXECUTOR_HW_MODEL
+          value: "{{ .Values.ExecutorHWModel }}"
         - name: EXECUTOR_HW_STORAGE
-          value: "{{ .Values.ExecutorHWStorage }}"
+          value: "{{ .Values.ExecutorStorage }}"
         - name: EXECUTOR_HW_GPU_COUNT
           value: "{{ .Values.ExecutorHWGPUCount }}"
         - name: EXECUTOR_HW_GPU_MEM
@@ -107,10 +107,10 @@ spec:
         - name: EXECUTOR_FS_DIR
           value: "{{ .Values.ExecutorFSDir }}"
         - name: EXECUTOR_K8S_NAME
-          value: "{{ .Release.Name }}"
+          value: "{{ .Values.ExecutorK8sName }}"
         - name: EXECUTOR_K8S_NAMESPACE
-          value: "{{ .Release.Namespace }}"
+          value: "{{ .Values.ExecutorK8sNamespace }}"
         - name: EXECUTOR_K8S_PVC
-          value: "{{ .Release.Name }}-pvc"
+          value: "{{ .Values.ExecutorK8sPVC }}"
         - name: EXECUTOR_ADD_DEBUG_LOGS
           value: "false"

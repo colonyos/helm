@@ -1,0 +1,4 @@
+{
+    "executorname": "kube",
+    "executortype": "container-executor"
+}

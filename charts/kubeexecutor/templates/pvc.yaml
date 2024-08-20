@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Release.Name }}-pvc
+  name: kubeexecutor-pvc
 spec:
   accessModes:
     - ReadWriteMany
   storageClassName: {{ .Values.StorageClass }}
   resources:
     requests:
-      storage: {{ .Values.ExecutorFSSize }}
+      storage: {{ .Values.ExecutorStorage }}
