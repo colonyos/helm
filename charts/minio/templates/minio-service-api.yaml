@@ -7,8 +7,14 @@ metadata:
 spec:
   selector:
     app: minio
+  {{ if .Values.ExposeNodePort }}
+  type: NodePort
+  {{ end }}
   ports:
     - name: http
       protocol: TCP
       port: 9000
       targetPort: 9000
+      {{ if .Values.ExposeNodePort }}
+      nodePort: {{int .Values.NodePortAPI }}
+      {{ end }}

@@ -1,3 +1,4 @@
+{{ if .Values.Ingress }}
 apiVersion: networking.k8s.io/v1 
 kind: Ingress
 metadata:
@@ -22,3 +23,4 @@ spec:
     - secretName: minio-console-tls
       hosts:
         - {{ .Values.ConsoleHostname | quote }} 
+{{ end }}

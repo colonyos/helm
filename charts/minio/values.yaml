@@ -1,7 +1,13 @@
+Ingress: false 
+ExposeNodePort: true
+NodePortAPI: 31000  # must be in range 30000-32767
+NodePortConsole: 31001  # must be in range 30000-32767
 ConsoleHostname: "minio.colonyos.io"
 APIHostname: "s3.colonyos.io"
 Username: "admin"
-Password: "TODO"
+Password: "admin12345"
 Image: "minio/minio:latest"
 Timezone: "Europe/Stockholm"
-StorageSize: "40Gi"
+StorageClassName: longhorn
+StorageSize: "10Gi"
+
