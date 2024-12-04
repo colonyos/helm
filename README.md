@@ -26,7 +26,7 @@ helm repo add colonyos https://colonyos.github.io/helm
 
 If you had already added this repo earlier, run `helm repo update` to retrieve the latest versions of the packages.  You can then run `helm search repo colonyos` to see the charts.
 
-To install the `<chart-name>` chart (e.g. `colonies`):
+To install the `<chart-name>` chart (e.g. `colonies`) :
 
 ```sh
 helm install my-<chart-name> colonyos/<chart-name>
