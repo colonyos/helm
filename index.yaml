@@ -22,6 +22,32 @@ entries:
     - https://github.com/colonyos/helm/releases/download/colonies-0.0.1/colonies-0.0.1.tgz
     version: 0.0.1
   kubeexecutor:
+  - annotations:
+      functions: execute
+    apiVersion: v2
+    appVersion: 1.0.9
+    created: "2025-11-14T14:02:12.28272012Z"
+    description: ColonyOS executor for k8s
+    digest: c505c43a27e895f09ea881dda04b868bfdd44f91bf29202f1081ea2000ac5970
+    home: https://colonyos.io/
+    icon: https://github.com/colonyos/colonies/blob/main/docs/images/ColonyOsLogoNoShaddow2.png
+    keywords:
+    - Meta-OS
+    - Computing Continuum
+    - Distributed Computing
+    maintainers:
+    - email: josef.vilestad@ri.se
+      name: Josef Vilestad
+    - email: johan.kristiansson@ltu.se
+      name: Johan Kristiansson
+    name: kubeexecutor
+    sources:
+    - https://github.com/colonyos/executors/tree/main/kube
+    - https://github.com/colonyos/colonies
+    type: application
+    urls:
+    - https://github.com/colonyos/helm/releases/download/kubeexecutor-0.0.3/kubeexecutor-0.0.3.tgz
+    version: 0.0.3
   - apiVersion: v1
     appVersion: 0.0.2
     created: "2024-03-04T07:29:10.85896607Z"
@@ -53,4 +79,4 @@ entries:
     urls:
     - https://github.com/colonyos/helm/releases/download/minio-0.0.1/minio-0.0.1.tgz
     version: 0.0.1
-generated: "2024-07-03T08:43:15.266135816Z"
+generated: "2025-11-14T14:02:12.282737803Z"
