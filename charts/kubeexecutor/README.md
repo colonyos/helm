@@ -1,32 +1,41 @@
-# Introduction
-This Helm chart installs a Kube Executor.
+# ColonyOS Kubernetes executor
 
-## Authentication 
-```console
-INFO[0000] Generated new private key  
-Id=5cec61bf8df8f595d72b58ebdfa8f7d7780558f12aba0feaf1769eb889fadd60 
-PrvKey=951d80c64cdb3918cb089c6ad1996c249319451afeffd77b8bebba4c8b00cf7f
-```
+This chart will deploy a kubernetes executor for ColonyOS
 
-## Register executor
-```console
-colonies executor add --spec kube-executor.json --executorid 5cec61bf8df8f595d72b58ebdfa8f7d7780558f12aba0feaf1769eb889fadd60 --approve
-```
+## Prerequisites
 
-Add PrvKey to `values.yaml` under `ColoniesPrvKey`.
+- A running ColonyOS server with a colony to connect to.
 
-# Installation
-Edit `values.yaml` and type:
+## Installation
+
+### Install from repository
 
 ```console
-./install.sh
+helm repo add colonyos https://colonyos.github.io/helm
 ```
 
-# Configuration options
+```console
+helm get values colonyos/kubeexecutor > values.yaml
+```
+
+Edit values.yaml
+
+```console
+helm install my-kubeexecutor colonyos/kubeexecutor
+```
+
+### Install from local file system
+
+```console
+helm install kubeexecutor ./ -f values.yaml
+```
+
+## Configuration options
+
 | Setting                | Description                                                                                             | Example value                   |
 | ---                    | -----------                                                                                             | ---                             |
 | NumberOfPods           | Number of pods to deploy.                                                                               | 3                               |
-| ExecutorsPerPod        | Number of exectors per pod. Each executor runs a container inside the pod.                              | 5                               |
+| ExecutorsPerPod        | Number of executors per pod. Each executor runs a container inside the pod.                              | 5                               |
 | ExecutorResourceLimit  | Enable CPU and memory limits.                                                                           | true/false                      |
 | ExecutorCPU            | CPU request.                                                                                            | "4000m"                         |
 | ExecutorMemory         | Memory request and limit.                                                                               | "100Mi"                         |

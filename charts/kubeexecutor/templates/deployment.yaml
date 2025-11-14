@@ -80,8 +80,12 @@ spec:
           value: "{{ .Values.ExecutorSWType }}"
         - name: EXECUTOR_SW_VERSION
           value: "{{ .Values.ExecutorSWVersion }}"
+        - name: EXECUTOR_HW_CPU
+          value: "{{ .Values.ExecutorCPU }}"
         - name: EXECUTOR_HW_TOTAL_CPU
           value: "{{ .Values.ExecutorHWTotalCPU }}"
+        - name: EXECUTOR_HW_MEM
+          value: "{{ .Values.ExecutorMemory }}"
         - name: EXECUTOR_HW_TOTAL_MEM
           value: "{{ .Values.ExecutorHWTotalMem }}"
         - name: EXECUTOR_HW_NODES
@@ -114,3 +118,11 @@ spec:
           value: "{{ .Values.ExecutorK8sPVC }}"
         - name: EXECUTOR_ADD_DEBUG_LOGS
           value: "false"
+        - name: EXECUTOR_K8S_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: EXECUTOR_K8S_POD_UID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.uid

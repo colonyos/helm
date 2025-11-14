@@ -1,24 +1,24 @@
 Replicas: 1
-StorageClass: "TODO"
+StorageClass: ""
 ExecutorK8sName: "kubeexecutor"
-ExecutorK8sNamespace: "kubeexecutor"
+ExecutorK8sNamespace: ""
 ExecutorK8sPVC: "kubeexecutor-pvc"
 
 ExecutorDockerImage: "colonyos/kubeexecutor:v1.0.9"
 
 # Colonies server settings
-ColoniesServerHost: "TODO"
+ColoniesServerHost: ""
 ColoniesServerPort: 443
 ColoniesTLS: true
-ColoniesColonyName: "TODO"
+ColoniesColonyName: ""
 ColoniesColonyPrvKey: ""
-ColoniesExecutorName: "icekube"
-ColoniesPrvKey: "TODO"
-AWSS3Endpoint: "TODO"
-AWSS3AccessKey: "TODO"
-AWSS3SecretKey: "TODO"
+ColoniesExecutorName: ""
+ColoniesPrvKey: ""
+AWSS3Endpoint: ""
+AWSS3AccessKey: ""
+AWSS3SecretKey: ""
 AWSS3Region: ""
-AWSS3Bucket: "TODO"
+AWSS3Bucket: ""
 AWSS3TLS: "true"
 AWSS3SkipVerify: "false"
 
@@ -33,21 +33,21 @@ ExecutorMemory: "6000Mi"
 ExecutorCPU: "2000m"
 
 # Shared storage used by the K8s Executor and all spawned processes
-ExecutorStorage: "60Gi"
+ExecutorStorage: "6Gi"
 
 # Path on the shared space, where ColonyFS files are stored
 ExecutorFSDir: "/cfs"
 
 # This one is not used? Executor type is derived from executor registration?
-ExecutorType: "container-executor"
+ExecutorType: "kubeexecutor"
 
 # Meta-data only below
-ExecutorLocationDesc: "TODO"
+ExecutorLocationDesc: ""
 ExecutorLocationLong: ""
 ExecutorLocationLat: ""
-ExecutorSWName: ""
-ExecutorSWType: ""
-ExecutorSWVersion: ""
+ExecutorSWName: "kubeexecutor"
+ExecutorSWType: "kubeexecutor"
+ExecutorSWVersion: "1.0.9"
 
 # Total number of cores available to running processes. The K8s Executor will not 
 # start processes if there is not enough CPU resources available in the Kubernetes cluster
@@ -57,7 +57,7 @@ ExecutorSWVersion: ""
 # as that defined by the ExecutorMemory setting, assuming ExecutorResourceLimit is set.
 # Therefore, the total CPUs in the cluster must be greater than the sum of 
 # ExecutorCPU and ExecutorHWTotalCPU.
-ExecutorHWTotalCPU: "20000m"
+ExecutorHWTotalCPU: ""
 
 # Total memory available for running processes. The K8s Executor will not start 
 # processes if there is not enough available memory. The specified value must not 
@@ -67,14 +67,14 @@ ExecutorHWTotalCPU: "20000m"
 # as that defined by the ExecutorMemory setting, assuming ExecutorResourceLimit is set.
 # Therefore, the total memory in the cluster must be greater than the sum of 
 # ExecutorMemory and ExecutorHWTotalCPU.
-ExecutorHWTotalMem: "20000Mi"  
+ExecutorHWTotalMem: ""  
 
 
 # GPU resources
-ExecutorHWGPUCount: "4"
-ExecutorHWGPUMem: "2000Mi"
-ExecutorHWGPUNodesCount: "4"
-ExecutorHWGPUName: "nvidia_2080ti"
+ExecutorHWGPUCount: "0"
+ExecutorHWGPUMem: "0"
+ExecutorHWGPUNodesCount: "0"
+ExecutorHWGPUName: "n/a"
 
 # Meta-data below
 ExecutorHWModel: ""
