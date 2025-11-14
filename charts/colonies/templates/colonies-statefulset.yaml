@@ -6,7 +6,9 @@ metadata:
     app: colonies
 spec:
   serviceName: "colonies-internal"
-  replicas: {{ (int .Values.ColoniesServerReplicas) }}
+  replicas: {{ (int .Values.colonies.replicas) }}
+  updateStrategy:
+    type: {{ .Values.colonies.updateStrategy.type }}
   selector:
     matchLabels:
       app: colonies
@@ -17,27 +19,38 @@ spec:
        labels:
          app: colonies
      spec:
+       {{- if .Values.imagePullSecrets }}
+       imagePullSecrets:
+         {{- toYaml .Values.imagePullSecrets | nindent 8 }}
+       {{- end }}
        initContainers:
-       - name: setupdb 
-         image: {{ .Values.ColoniesServerImage | quote }}
-         imagePullPolicy: "Always"
+       - name: setupdb
+         image: {{ .Values.colonies.image | quote }}
+         imagePullPolicy: {{ .Values.colonies.imagePullPolicy }}
          command: ["/bin/colonies", "database", "create"]
+         resources:
+           requests:
+             cpu: "100m"
+             memory: "128Mi"
+           limits:
+             cpu: "500m"
+             memory: "512Mi"
          envFrom:
            - configMapRef:
                name: colonies-config
        containers:
        - name: colonies
-         image: {{ .Values.ColoniesServerImage | quote }}
-         imagePullPolicy: "Always"
+         image: {{ .Values.colonies.image | quote }}
+         imagePullPolicy: {{ .Values.colonies.imagePullPolicy }}
          ports:
            - containerPort: 80
            - containerPort: 2379
              name: client
            - containerPort: 2380
              name: peer
-           - containerPort: 2381 
+           - containerPort: 2381
              name: relay
-           - containerPort: {{ (int .Values.ColoniesServerProfilerPort) }}
+           - containerPort: {{ (int .Values.colonies.profilerPort) }}
              name: http-profiler
          envFrom:
            - configMapRef:
@@ -45,13 +58,14 @@ spec:
          volumeMounts:
            - name: etcd-data
              mountPath: /var/run/etcd
-         {{ if .Values.ColoniesResourceLimit }}
+         {{ if .Values.colonies.resources.enabled }}
          resources:
-          limits:
-            memory: {{ (.Values.ColoniesServerMemory | quote) }}
-          requests:
-            cpu: {{ (.Values.ColoniesServerCPU | quote) }}
-            memory: {{ (.Values.ColoniesServerMemory | quote) }}
+           requests:
+             cpu: {{ .Values.colonies.resources.requests.cpu | quote }}
+             memory: {{ .Values.colonies.resources.requests.memory | quote }}
+           limits:
+             cpu: {{ .Values.colonies.resources.limits.cpu | quote }}
+             memory: {{ .Values.colonies.resources.limits.memory | quote }}
          {{ end }}
          lifecycle:
             preStop:
@@ -59,9 +73,9 @@ spec:
                 command: ["rm", "-rf", "/var/run/etcd"]
          command:
            - /bin/sh
-           - -ec 
+           - -ec
            - |
-             REPLICAS={{ (int .Values.ColoniesServerReplicas) }}
+             REPLICAS={{ (int .Values.colonies.replicas) }}
              PEERS=""
              for i in $(seq 0 $((${REPLICAS} - 1))); do
                 PEERS="${PEERS}${PEERS:+,}colonies-server-${i}=colonies-server-${i}.colonies-internal:2380:2381:80"
@@ -72,7 +86,7 @@ spec:
         name: etcd-data
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        storageClassName: {{ (.Values.StorageClassName) }}
+        storageClassName: {{ .Values.storageClassName }}
         resources:
           requests:
             storage: 1Gi

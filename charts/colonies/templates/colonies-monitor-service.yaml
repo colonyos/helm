@@ -1,7 +1,8 @@
+{{ if .Values.monitoring.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: colonies-monitor-service 
+  name: colonies-monitor-service
   labels:
     app: colonies-monitor
 spec:
@@ -12,3 +13,4 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 80
+{{ end }}

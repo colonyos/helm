@@ -1,3 +1,4 @@
+{{ if and .Values.monitoring.enabled .Values.prometheus.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -21,11 +22,22 @@ spec:
        labels:
          app: colonies-prometheus
      spec:
+       {{- if .Values.imagePullSecrets }}
+       imagePullSecrets:
+         {{- toYaml .Values.imagePullSecrets | nindent 8 }}
+       {{- end }}
        initContainers:
        - name: "init-datapath"
-         image: alpine:3.16.2 
+         image: alpine:3.16.2
          command: ["chown", "-R", "65534:65534", "/prometheus"]
          command: ["/bin/chmod","-R","777","/prometheus"]
+         resources:
+           requests:
+             cpu: "100m"
+             memory: "128Mi"
+           limits:
+             cpu: "200m"
+             memory: "256Mi"
          volumeMounts:
          - name: colonies-prometheus-storage-volume 
            mountPath: /prometheus
@@ -35,15 +47,16 @@ spec:
          args:
             - "--config.file=/etc/prometheus/prometheus.yml"
             - "--storage.tsdb.path=/prometheus/"
-         image: {{ .Values.PrometheusImage | quote }}
-         imagePullPolicy: "Always"
-         {{ if .Values.PrometheusResourceLimit }}
+         image: {{ .Values.prometheus.image | quote }}
+         imagePullPolicy: {{ .Values.prometheus.imagePullPolicy }}
+         {{ if .Values.prometheus.resources.enabled }}
          resources:
-            limits:
-              memory: {{ (.Values.PrometheusMemory | quote) }}
-            requests:
-              cpu: {{ (.Values.PrometheusCPU | quote) }}
-              memory: {{ (.Values.PrometheusMemory | quote) }}
+           requests:
+             cpu: {{ .Values.prometheus.resources.requests.cpu | quote }}
+             memory: {{ .Values.prometheus.resources.requests.memory | quote }}
+           limits:
+             cpu: {{ .Values.prometheus.resources.limits.cpu | quote }}
+             memory: {{ .Values.prometheus.resources.limits.memory | quote }}
          {{ end }}
          ports:
            - containerPort: 9090
@@ -60,3 +73,4 @@ spec:
          - name: colonies-prometheus-storage-volume
            persistentVolumeClaim:
              claimName: colonies-prometheus-storage-pvc
+{{ end }}

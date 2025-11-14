@@ -1,3 +1,4 @@
+{{ if .Values.monitoring.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,21 +17,27 @@ spec:
        labels:
          app: colonies-monitor
      spec:
+       {{- if .Values.imagePullSecrets }}
+       imagePullSecrets:
+         {{- toYaml .Values.imagePullSecrets | nindent 8 }}
+       {{- end }}
        containers:
        - name: colonies-monitor
-         image: {{ .Values.ColoniesServerImage | quote }}
-         imagePullPolicy: "Always"
+         image: {{ .Values.colonies.image | quote }}
+         imagePullPolicy: {{ .Values.colonies.imagePullPolicy }}
          command: ["colonies", "monitor", "start"]
          ports:
            - containerPort: 80
          envFrom:
            - configMapRef:
                name: colonies-monitor-config
-         {{ if .Values.ColoniesMonitorResourceLimit }}
+         {{ if .Values.monitoring.resources.enabled }}
          resources:
-            limits:
-              memory: {{ (.Values.ColoniesMonitorServerMemory | quote) }}
-            requests:
-              cpu: {{ (.Values.ColoniesMonitorServerCPU | quote) }}
-              memory: {{ (.Values.ColoniesMonitorServerMemory | quote) }}
+           requests:
+             cpu: {{ .Values.monitoring.resources.requests.cpu | quote }}
+             memory: {{ .Values.monitoring.resources.requests.memory | quote }}
+           limits:
+             cpu: {{ .Values.monitoring.resources.limits.cpu | quote }}
+             memory: {{ .Values.monitoring.resources.limits.memory | quote }}
          {{ end }}
+{{ end }}

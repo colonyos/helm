@@ -1,25 +1,29 @@
-{{ if .Values.Ingress }}
-apiVersion: networking.k8s.io/v1 
+{{ if .Values.network.ingress }}
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: colonies-ingress
+  {{- if .Values.colonies.backends.http.tls }}
   annotations:
-    kubernetes.io/ingress.class: {{ .Values.IngressController }}
     cert-manager.io/cluster-issuer: letsencrypt-prod
+  {{- end }}
 spec:
+  ingressClassName: {{ .Values.network.ingressController }}
   rules:
-  - host: {{ .Values.ColoniesServerHostname | quote }} 
+  - host: {{ .Values.network.hostname | quote }}
     http:
       paths:
-        - pathType: Prefix 
+        - pathType: Prefix
           path: /
           backend:
             service:
               name: colonies-service
-              port: 
+              port:
                 number: 80
+  {{- if .Values.colonies.backends.http.tls }}
   tls:
     - hosts:
-        - {{ .Values.ColoniesServerHostname | quote }}
+        - {{ .Values.network.hostname | quote }}
       secretName: colonies-tls
+  {{- end }}
 {{ end }}

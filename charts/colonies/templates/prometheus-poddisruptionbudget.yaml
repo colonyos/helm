@@ -1,0 +1,15 @@
+{{ if and .Values.monitoring.enabled .Values.prometheus.enabled }}
+{{ if .Values.prometheus.podDisruptionBudget.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: colonies-prometheus-pdb
+  labels:
+    app: colonies-prometheus
+spec:
+  minAvailable: {{ .Values.prometheus.podDisruptionBudget.minAvailable }}
+  selector:
+    matchLabels:
+      app: colonies-prometheus
+{{ end }}
+{{ end }}

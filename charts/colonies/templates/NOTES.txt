@@ -1,0 +1,2 @@
+colonies cluster info --serverprvkey {{ .Values.colonies.serverPrivateKey }} --host {{ .Values.network.hostname }}
+To see deployed servers

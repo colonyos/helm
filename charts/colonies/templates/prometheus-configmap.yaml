@@ -1,9 +1,10 @@
+{{ if and .Values.monitoring.enabled .Values.prometheus.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: colonies-prometheus-server-conf
   labels:
-    app: colonies-prometheus 
+    app: colonies-prometheus
 data:
   prometheus.yml: |-
     global:
@@ -13,6 +14,7 @@ data:
 
     scrape_configs:
       - job_name: 'prometheus'
-        scrape_interval: {{ .Values.ScrapeIntervall}} 
+        scrape_interval: {{ .Values.prometheus.scrapeInterval }}
         static_configs:
-          - targets: ['{{ .Values.ColoniesMonitoringServer }}']
+          - targets: ['{{ .Values.monitoring.server }}']
+{{ end }}

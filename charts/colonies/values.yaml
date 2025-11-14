@@ -1,57 +1,168 @@
-# General settings
-#StorageClassName: longhorn 
-StorageClassName: local-path 
-Timezone: "Europe/Stockholm"
+# storageClassName is the storage class to use in k8s for persistent storage
+storageClassName: ""
+# timezone is the timezone to set for colonies and the database
+timezone: "Europe/Stockholm"
+# imagePullSecrets is a list of secret names for pulling images from private registries
+imagePullSecrets: []
 
-Ingress: true 
-ExposeNodePort: false
-NodePort: 30000  # must be in range 30000-32767 
-# IngressController: nginx
-IngressController: traefik 
-ColoniesServerHostname: "TODO, e.g server.colonyos.io"
+network:
+# network.ingress sets whether to create an ingress or not
+  ingress: true 
+# network.exposeNodeport sets whether to expose colonies with nodeport 
+  exposeNodeport: false
+# network.nodeport sets the nodeport port, must be between 30000-32767 
+  nodeport: 30000
+# network.ingressController selects the ingress controller class 
+  ingressController: "traefik"
+# network.coloniesHostname sets the ingress hostname for the colony server
+  hostname: ""
 
-  # Colonies server settings
-ColoniesDBHost: "colonies-postgres-service.colonyos"
-ColoniesDBPort: "5432"
-ColoniesServerReplicas: 3 
-ColoniesServerImage: "colonyos/colonies:v1.8.3"
-ColoniesServerID: "TODO"
-ColoniesServerPrvKey: "TODO"
-ColoniesResourceLimit: false 
-ColoniesServerCPU: "15000m" 
-ColoniesServerMemory: "20000Mi" 
-ColoniesServerProfiler: false
-ColoniesServerProfilerPort: 6060 
-ColoniesCronCheckerPeriod: "1000"
-ColoniesGeneratorCheckerPeriod: "500"
-ColoniesVerbose: false 
-ColoniesExclusiveAssign: true
-ColoniesAllowExecutorReregister: false
-ColoniesRetention: false 
-ColoniesRetentionPolicy: 604800 # 60 seconds * 60 * 24 * 7 = 604800 (1 week)
+colonies:
+# colonies.replicas determines how many pods will run colonies server
+  replicas: 3
+# colonies.image chooses the colonies container image
+  image: "colonyos/colonies:v1.9.1"
+# colonies.imagePullPolicy sets the image pull policy (Always, IfNotPresent, Never)
+  imagePullPolicy: "Always"
+# colonies.serverid sets the colony server ID (must correspond to serverPrivateKey)
+  serverid: ""
+# colonies.serverPrivateKey sets the colonies server private key (must correspond to serverid)
+  serverPrivateKey: ""
+# colonies.resources sets the k8s resource requests and limits for the colonies server
+  resources:
+    enabled: false
+    requests:
+      cpu: "1000m"
+      memory: "2Gi"
+    limits:
+      cpu: "2000m"
+      memory: "4Gi"
+# colonies.podDisruptionBudget configures the PodDisruptionBudget for high availability
+  podDisruptionBudget:
+    enabled: false
+    minAvailable: 1
+# colonies.updateStrategy configures the StatefulSet update strategy
+  updateStrategy:
+    type: "RollingUpdate"
+# colonies.internalhostname sets the service name for the colonies server
+  internalhostname: "colonies-service"
+# colonies.profiler determines of the colonies memory profiler is enabled
+  profiler: false
+# colonies.profilerPort determines the port for the colonies memory profile
+  profilerPort: 6060
+# colonies.cronCheckerPeriod sets the cron checker period in colonies in milliseconds
+  cronCheckerPeriod: "1000"
+# colonies.generatorCheckerPeriod sets the generator checker period in colonies in milliseconds
+  generatorCheckerPeriod: "500"
+# colonies.verbose determines if the colonies server will enable verbose logging
+  verbose: false
+# colonies.exclusiveAssign determines if the colonies server will only assign a process to one executor
+  exclusiveAssign: true
+# colonies.allowExecutorReregister determines if an executor can register again before unregistering
+  allowExecutorReregister: false
+# colonies.retention sets the colonies retention policy
+  retention: false
+# colonies.retentionPolicy sets how long the colonies retention policy will be in seconds. Default value is one week
+  retentionPolicy: 604800
+  backends:
+# colonies.backends.enabled sets which backends are enabled. Order matters (comma-separated: http,grpc,libp2p,coap)
+    enabled: "http"
+# colonies.backends.http configures the HTTP backend
+    http:
+      tls: false
+      port: 80
+# colonies.backends.grpc configures the gRPC backend
+    grpc:
+      port: 50051
+      insecure: true
+      tlsCert: ""
+      tlsKey: ""
+# colonies.backends.libp2p configures the libp2p backend
+    libp2p:
+      port: 50000
+      identity: ""
+      bootstrapPeers: ""
+      announceAddrs: ""
+# colonies.backends.coap configures the CoAP backend
+    coap:
+      port: 5683
 
-# PostgreSQL settings
-DBUser: "postgres"
-DBPassword: "TODO"
-DBImage: timescale/timescaledb:2.13.0-pg16
-DBResourceLimit: false
-DBCPU: "1000m"
-DBMemory: "1000Mi"
-DBStorage: 10Gi
-TimescaleDB: true
+database:
+# database.host sets the service name for the database deployment
+  host: "colonies-database-service"
+# database.port sets the database port
+  port: 5432
+# database.user sets the username for the database
+  user: "postgres"
+# database.password sets the password for the database user
+  password: ""
+# database.image determines the database container image to use
+  image: "timescale/timescaledb:2.23.1-pg17"
+# database.imagePullPolicy sets the image pull policy (Always, IfNotPresent, Never)
+  imagePullPolicy: "IfNotPresent"
+# database.resources sets the k8s resource requests and limits for the database
+  resources:
+    enabled: false
+    requests:
+      cpu: "500m"
+      memory: "1Gi"
+    limits:
+      cpu: "1000m"
+      memory: "2Gi"
+# database.podDisruptionBudget configures the PodDisruptionBudget for high availability
+  podDisruptionBudget:
+    enabled: false
+    minAvailable: 1
+# database.updateStrategy configures the StatefulSet update strategy
+  updateStrategy:
+    type: "RollingUpdate"
+# database.storage determines the persistent volume size for the database
+  storage: "10Gi"
+# database.timescaledb is a boolean that tells whether the database is timescaledb or not
+  timescaledb: true
 
-# Colonies monitoring server settings
-ColoniesMonitorInterval: 10
-ColoniesServerInternalHostname: "colonies-service.colonyos"
-ColoniesMonitorResourceLimit: false
-ColoniesMonitorServerCPU: "1000m"
-ColoniesMonitorServerMemory: "8Gi"
+monitoring:
+# monitoring.enabled determines if the monitoring server should be deployed
+  enabled: true
+# monitoring.interval sets the colony server monitoring interval in seconds
+  interval: 10
+# monitoring.server sets service name for the colonies monitoring server
+  server: "colonies-monitor-service"
+# monitoring.resources sets the k8s resource requests and limits for the monitoring server
+  resources:
+    enabled: false
+    requests:
+      cpu: "500m"
+      memory: "4Gi"
+    limits:
+      cpu: "1000m"
+      memory: "8Gi"
+# monitoring.podDisruptionBudget configures the PodDisruptionBudget for high availability
+  podDisruptionBudget:
+    enabled: false
+    minAvailable: 1
 
-# Prometheus settings 
-PrometheusImage: prom/prometheus
-PrometheusStorage: 10Gi
-PrometheusResourceLimit: false
-PrometheusCPU: "1000m"
-PrometheusMemory: "8Gi"
-ScrapeIntervall: 10s
-ColoniesMonitoringServer: colonies-monitor-service.colonyos
+prometheus:
+# prometheus.enabled determines if prometheus should be deployed
+  enabled: true
+# prometheus.image sets the prometheus container image
+  image: "prom/prometheus"
+# prometheus.imagePullPolicy sets the image pull policy (Always, IfNotPresent, Never)
+  imagePullPolicy: "Always"
+# prometheus.storage sets the size of persistent storage for prometheus
+  storage: "10Gi"
+# prometheus.resources sets the k8s resource requests and limits for prometheus
+  resources:
+    enabled: false
+    requests:
+      cpu: "500m"
+      memory: "4Gi"
+    limits:
+      cpu: "1000m"
+      memory: "8Gi"
+# prometheus.podDisruptionBudget configures the PodDisruptionBudget for high availability
+  podDisruptionBudget:
+    enabled: false
+    minAvailable: 1
+# prometheus.scrapeInterval sets the scraping interval for prometheus
+  scrapeInterval: "10s"

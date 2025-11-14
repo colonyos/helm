@@ -1,0 +1,13 @@
+{{ if .Values.colonies.podDisruptionBudget.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: colonies-server-pdb
+  labels:
+    app: colonies
+spec:
+  minAvailable: {{ .Values.colonies.podDisruptionBudget.minAvailable }}
+  selector:
+    matchLabels:
+      app: colonies
+{{ end }}

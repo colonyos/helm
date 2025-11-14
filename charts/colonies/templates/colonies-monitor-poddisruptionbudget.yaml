@@ -1,0 +1,15 @@
+{{ if .Values.monitoring.enabled }}
+{{ if .Values.monitoring.podDisruptionBudget.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: colonies-monitor-pdb
+  labels:
+    app: colonies-monitor
+spec:
+  minAvailable: {{ .Values.monitoring.podDisruptionBudget.minAvailable }}
+  selector:
+    matchLabels:
+      app: colonies-monitor
+{{ end }}
+{{ end }}

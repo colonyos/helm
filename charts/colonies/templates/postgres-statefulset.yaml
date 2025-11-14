@@ -7,6 +7,8 @@ metadata:
 spec:
   serviceName: "colonies-postgresql-internal"
   replicas: 1
+  updateStrategy:
+    type: {{ .Values.database.updateStrategy.type }}
   selector:
     matchLabels:
       app: colonies-postgres
@@ -15,10 +17,14 @@ spec:
        labels:
           app: colonies-postgres
      spec:
+         {{- if .Values.imagePullSecrets }}
+         imagePullSecrets:
+           {{- toYaml .Values.imagePullSecrets | nindent 10 }}
+         {{- end }}
          containers:
            - name: timescaledb
-             image: {{ (.Values.DBImage) }} 
-             imagePullPolicy: "IfNotPresent"
+             image: {{ .Values.database.image }}
+             imagePullPolicy: {{ .Values.database.imagePullPolicy }}
              ports:
                - containerPort: 5432
              envFrom:
@@ -27,13 +33,14 @@ spec:
              volumeMounts:
                - mountPath: /var/lib/postgresql/data
                  name: colonies-postgresdb
-             {{ if .Values.DBResourceLimit }}
+             {{ if .Values.database.resources.enabled }}
              resources:
-                limits:
-                  memory: {{ (.Values.DBMemory | quote) }}
-                requests:
-                  cpu: {{ (.Values.DBCPU | quote) }}
-                  memory: {{ (.Values.DBMemory | quote) }}
+               requests:
+                 cpu: {{ .Values.database.resources.requests.cpu | quote }}
+                 memory: {{ .Values.database.resources.requests.memory | quote }}
+               limits:
+                 cpu: {{ .Values.database.resources.limits.cpu | quote }}
+                 memory: {{ .Values.database.resources.limits.memory | quote }}
              {{ end }}
          volumes:
            - name: colonies-postgresdb

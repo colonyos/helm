@@ -1,6 +1,20 @@
-apiVersion: v1
+apiVersion: v2
 name: colonies
-description: A helm chart for deploying Colonies servers 
+description: Chart to deploy a colony server with a database and monitoring.
 type: application
-version: 0.0.1
-appVersion: 0.0.1
+version: 0.0.3
+appVersion: 1.9.1
+home: https://colonyos.io/
+sources:
+  - https://github.com/colonyos/helm/tree/main/charts/colonies
+  - https://github.com/colonyos/colonies
+keywords:
+  - Meta-OS
+  - Computing Continuum
+  - Distributed Computing
+maintainers:
+  - name: Josef Vilestad
+    email: josef.vilestad@ri.se
+  - name: Johan Kristiansson
+    email: johan.kristiansson@ltu.se
+icon: https://github.com/colonyos/colonies/blob/main/docs/images/ColonyOsLogoNoShaddow2.png
