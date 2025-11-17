@@ -1,0 +1,11 @@
+apiVersion: v1
+type: postrenderer/v1
+name: colonies-secret-generate
+version: 0.1.0
+runtime: extism/v1
+runtimeConfig:
+  hostFunctions:
+    - name: prvkey
+      output_param_types:
+    - name: id
+      input_param_types:
