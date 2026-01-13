@@ -21,7 +21,7 @@ colonies:
 # colonies.replicas determines how many pods will run colonies server
   replicas: 3
 # colonies.image chooses the colonies container image
-  image: "colonyos/colonies:v1.9.1"
+  image: "colonyos/colonies:v1.9.8"
 # colonies.imagePullPolicy sets the image pull policy (Always, IfNotPresent, Never)
   imagePullPolicy: "Always"
 # colonies.serverid sets the colony server ID (must correspond to serverPrivateKey)
@@ -75,7 +75,7 @@ database:
 # database.password sets the password for the database user
   password: ""
 # database.image determines the database container image to use
-  image: "timescale/timescaledb:2.23.1-pg17"
+  image: "timescale/timescaledb:2.24.0-pg17"
 # database.imagePullPolicy sets the image pull policy (Always, IfNotPresent, Never)
   imagePullPolicy: "IfNotPresent"
 # database.resources sets the k8s resource requests and limits for the database
