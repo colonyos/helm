@@ -56,36 +56,14 @@ colonies:
   generatorCheckerPeriod: "500"
 # colonies.verbose determines if the colonies server will enable verbose logging
   verbose: false
-# colonies.exclusiveAssign determines if the colonies server will only assign a process to one executor
-  exclusiveAssign: true
+# colonies.exclusiveAssign determines the process assignment mechanism. Set to false for row-lock (faster)
+  exclusiveAssign: false
 # colonies.allowExecutorReregister determines if an executor can register again before unregistering
   allowExecutorReregister: false
 # colonies.retention sets the colonies retention policy
   retention: false
 # colonies.retentionPolicy sets how long the colonies retention policy will be in seconds. Default value is one week
   retentionPolicy: 604800
-  backends:
-# colonies.backends.enabled sets which backends are enabled. Order matters (comma-separated: http,grpc,libp2p,coap)
-    enabled: "http"
-# colonies.backends.http configures the HTTP backend
-    http:
-      tls: false
-      port: 80
-# colonies.backends.grpc configures the gRPC backend
-    grpc:
-      port: 50051
-      insecure: true
-      tlsCert: ""
-      tlsKey: ""
-# colonies.backends.libp2p configures the libp2p backend
-    libp2p:
-      port: 50000
-      identity: ""
-      bootstrapPeers: ""
-      announceAddrs: ""
-# colonies.backends.coap configures the CoAP backend
-    coap:
-      port: 5683
 
 database:
 # database.host sets the service name for the database deployment
@@ -120,6 +98,16 @@ database:
   storage: "10Gi"
 # database.timescaledb is a boolean that tells whether the database is timescaledb or not
   timescaledb: true
+# database.connectionPool configures the database connection pool settings
+  connectionPool:
+# database.connectionPool.maxOpenConns sets the maximum number of open connections per replica
+    maxOpenConns: 100
+# database.connectionPool.maxIdleConns sets the maximum number of idle connections (should equal maxOpenConns for reuse)
+    maxIdleConns: 100
+# database.connectionPool.connMaxLifetime sets the connection maximum lifetime in seconds (5 min default)
+    connMaxLifetime: 300
+# database.connectionPool.connMaxIdleTime sets the connection maximum idle time in seconds (1 min default)
+    connMaxIdleTime: 60
 
 monitoring:
 # monitoring.enabled determines if the monitoring server should be deployed

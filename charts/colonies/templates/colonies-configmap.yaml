@@ -24,4 +24,8 @@ data:
   COLONIES_ALLOW_EXECUTOR_REREGISTER: {{ .Values.colonies.allowExecutorReregister | quote }}
   COLONIES_RETENTION: {{ .Values.colonies.retention | quote }}
   COLONIES_RETENTION_POLICY: {{ .Values.colonies.retentionPolicy | quote }}
+  COLONIES_DB_MAX_OPEN_CONNS: {{ .Values.database.connectionPool.maxOpenConns | quote }}
+  COLONIES_DB_MAX_IDLE_CONNS: {{ .Values.database.connectionPool.maxIdleConns | quote }}
+  COLONIES_DB_CONN_MAX_LIFETIME: {{ .Values.database.connectionPool.connMaxLifetime | quote }}
+  COLONIES_DB_CONN_MAX_IDLE_TIME: {{ .Values.database.connectionPool.connMaxIdleTime | quote }}
   TZ: {{ .Values.timezone | quote }}
