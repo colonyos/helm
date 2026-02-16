@@ -3,7 +3,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: colonies-ingress
-  {{- if .Values.colonies.backends.http.tls }}
+  {{- if .Values.network.ingressTls }}
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
   {{- end }}
@@ -20,7 +20,7 @@ spec:
               name: colonies-service
               port:
                 number: 80
-  {{- if .Values.colonies.backends.http.tls }}
+  {{- if .Values.network.ingressTls }}
   tls:
     - hosts:
         - {{ .Values.network.hostname | quote }}
