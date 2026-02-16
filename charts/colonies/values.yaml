@@ -23,7 +23,7 @@ colonies:
   # colonies.replicas determines how many pods will run colonies server
   replicas: 3
   # colonies.image chooses the colonies container image
-  image: "colonyos/colonies:v1.9.8"
+  image: "colonyos/colonies:v1.9.12"
   # colonies.imagePullPolicy sets the image pull policy (Always, IfNotPresent, Never)
   imagePullPolicy: "Always"
   # colonies.serverid sets the colony server ID (must correspond to serverPrivateKey)
