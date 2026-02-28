@@ -6,29 +6,31 @@ timezone: "Europe/Stockholm"
 imagePullSecrets: []
 
 network:
-# network.ingress sets whether to create an ingress or not
-  ingress: true 
-# network.exposeNodeport sets whether to expose colonies with nodeport 
+  # network.ingress sets whether to create an ingress or not
+  ingress: true
+  # network.ingressTls sets whether to use TLS for the ingress or not (requires cert-manager and a cluster issuer to be set up)
+  ingressTls: true
+  # network.exposeNodeport sets whether to expose colonies with nodeport
   exposeNodeport: false
-# network.nodeport sets the nodeport port, must be between 30000-32767 
+  # network.nodeport sets the nodeport port, must be between 30000-32767
   nodeport: 30000
-# network.ingressController selects the ingress controller class 
+  # network.ingressController selects the ingress controller class
   ingressController: "traefik"
-# network.coloniesHostname sets the ingress hostname for the colony server
+  # network.coloniesHostname sets the ingress hostname for the colony server
   hostname: ""
 
 colonies:
-# colonies.replicas determines how many pods will run colonies server
+  # colonies.replicas determines how many pods will run colonies server
   replicas: 3
-# colonies.image chooses the colonies container image
-  image: "colonyos/colonies:v1.9.8"
-# colonies.imagePullPolicy sets the image pull policy (Always, IfNotPresent, Never)
+  # colonies.image chooses the colonies container image
+  image: "colonyos/colonies:v1.9.12"
+  # colonies.imagePullPolicy sets the image pull policy (Always, IfNotPresent, Never)
   imagePullPolicy: "Always"
-# colonies.serverid sets the colony server ID (must correspond to serverPrivateKey)
+  # colonies.serverid sets the colony server ID (must correspond to serverPrivateKey)
   serverid: ""
-# colonies.serverPrivateKey sets the colonies server private key (must correspond to serverid)
+  # colonies.serverPrivateKey sets the colonies server private key (must correspond to serverid)
   serverPrivateKey: ""
-# colonies.resources sets the k8s resource requests and limits for the colonies server
+  # colonies.resources sets the k8s resource requests and limits for the colonies server
   resources:
     enabled: false
     requests:
@@ -37,48 +39,50 @@ colonies:
     limits:
       cpu: "2000m"
       memory: "4Gi"
-# colonies.podDisruptionBudget configures the PodDisruptionBudget for high availability
+  # colonies.podDisruptionBudget configures the PodDisruptionBudget for high availability
   podDisruptionBudget:
     enabled: false
     minAvailable: 1
-# colonies.updateStrategy configures the StatefulSet update strategy
+  # colonies.updateStrategy configures the StatefulSet update strategy
   updateStrategy:
     type: "RollingUpdate"
-# colonies.internalhostname sets the service name for the colonies server
+  # colonies.internalhostname sets the service name for the colonies server
   internalhostname: "colonies-service"
-# colonies.profiler determines of the colonies memory profiler is enabled
+  # colonies.profiler determines of the colonies memory profiler is enabled
   profiler: false
-# colonies.profilerPort determines the port for the colonies memory profile
+  # colonies.profilerPort determines the port for the colonies memory profile
   profilerPort: 6060
-# colonies.cronCheckerPeriod sets the cron checker period in colonies in milliseconds
+  # colonies.cronCheckerPeriod sets the cron checker period in colonies in milliseconds
   cronCheckerPeriod: "1000"
-# colonies.generatorCheckerPeriod sets the generator checker period in colonies in milliseconds
+  # colonies.generatorCheckerPeriod sets the generator checker period in colonies in milliseconds
   generatorCheckerPeriod: "500"
-# colonies.verbose determines if the colonies server will enable verbose logging
+  # colonies.verbose determines if the colonies server will enable verbose logging
   verbose: false
-# colonies.exclusiveAssign determines the process assignment mechanism. Set to false for row-lock (faster)
+  # colonies.exclusiveAssign determines the process assignment mechanism. Set to false for row-lock (faster)
   exclusiveAssign: false
-# colonies.allowExecutorReregister determines if an executor can register again before unregistering
+  # colonies.allowExecutorReregister determines if an executor can register again before unregistering
   allowExecutorReregister: false
-# colonies.retention sets the colonies retention policy
+  # colonies.retention sets the colonies retention policy
   retention: false
-# colonies.retentionPolicy sets how long the colonies retention policy will be in seconds. Default value is one week
+  # colonies.retentionPolicy sets how long the colonies retention policy will be in seconds. Default value is one week
   retentionPolicy: 604800
+  # colonies.tls determines if TLS should be enabled for the colonies server itself
+  tls: false
 
 database:
-# database.host sets the service name for the database deployment
+  # database.host sets the service name for the database deployment
   host: "colonies-database-service"
-# database.port sets the database port
+  # database.port sets the database port
   port: 5432
-# database.user sets the username for the database
+  # database.user sets the username for the database
   user: "postgres"
-# database.password sets the password for the database user
+  # database.password sets the password for the database user
   password: ""
-# database.image determines the database container image to use
+  # database.image determines the database container image to use
   image: "timescale/timescaledb:2.24.0-pg17"
-# database.imagePullPolicy sets the image pull policy (Always, IfNotPresent, Never)
+  # database.imagePullPolicy sets the image pull policy (Always, IfNotPresent, Never)
   imagePullPolicy: "IfNotPresent"
-# database.resources sets the k8s resource requests and limits for the database
+  # database.resources sets the k8s resource requests and limits for the database
   resources:
     enabled: false
     requests:
@@ -87,36 +91,36 @@ database:
     limits:
       cpu: "1000m"
       memory: "2Gi"
-# database.podDisruptionBudget configures the PodDisruptionBudget for high availability
+  # database.podDisruptionBudget configures the PodDisruptionBudget for high availability
   podDisruptionBudget:
     enabled: false
     minAvailable: 1
-# database.updateStrategy configures the StatefulSet update strategy
+  # database.updateStrategy configures the StatefulSet update strategy
   updateStrategy:
     type: "RollingUpdate"
-# database.storage determines the persistent volume size for the database
+  # database.storage determines the persistent volume size for the database
   storage: "10Gi"
-# database.timescaledb is a boolean that tells whether the database is timescaledb or not
+  # database.timescaledb is a boolean that tells whether the database is timescaledb or not
   timescaledb: true
-# database.connectionPool configures the database connection pool settings
+  # database.connectionPool configures the database connection pool settings
   connectionPool:
-# database.connectionPool.maxOpenConns sets the maximum number of open connections per replica
+    # database.connectionPool.maxOpenConns sets the maximum number of open connections per replica
     maxOpenConns: 100
-# database.connectionPool.maxIdleConns sets the maximum number of idle connections (should equal maxOpenConns for reuse)
+    # database.connectionPool.maxIdleConns sets the maximum number of idle connections (should equal maxOpenConns for reuse)
     maxIdleConns: 100
-# database.connectionPool.connMaxLifetime sets the connection maximum lifetime in seconds (5 min default)
+    # database.connectionPool.connMaxLifetime sets the connection maximum lifetime in seconds (5 min default)
     connMaxLifetime: 300
-# database.connectionPool.connMaxIdleTime sets the connection maximum idle time in seconds (1 min default)
+    # database.connectionPool.connMaxIdleTime sets the connection maximum idle time in seconds (1 min default)
     connMaxIdleTime: 60
 
 monitoring:
-# monitoring.enabled determines if the monitoring server should be deployed
+  # monitoring.enabled determines if the monitoring server should be deployed
   enabled: true
-# monitoring.interval sets the colony server monitoring interval in seconds
+  # monitoring.interval sets the colony server monitoring interval in seconds
   interval: 10
-# monitoring.server sets service name for the colonies monitoring server
+  # monitoring.server sets service name for the colonies monitoring server
   server: "colonies-monitor-service"
-# monitoring.resources sets the k8s resource requests and limits for the monitoring server
+  # monitoring.resources sets the k8s resource requests and limits for the monitoring server
   resources:
     enabled: false
     requests:
@@ -125,21 +129,21 @@ monitoring:
     limits:
       cpu: "1000m"
       memory: "8Gi"
-# monitoring.podDisruptionBudget configures the PodDisruptionBudget for high availability
+  # monitoring.podDisruptionBudget configures the PodDisruptionBudget for high availability
   podDisruptionBudget:
     enabled: false
     minAvailable: 1
 
 prometheus:
-# prometheus.enabled determines if prometheus should be deployed
+  # prometheus.enabled determines if prometheus should be deployed
   enabled: true
-# prometheus.image sets the prometheus container image
+  # prometheus.image sets the prometheus container image
   image: "prom/prometheus"
-# prometheus.imagePullPolicy sets the image pull policy (Always, IfNotPresent, Never)
+  # prometheus.imagePullPolicy sets the image pull policy (Always, IfNotPresent, Never)
   imagePullPolicy: "Always"
-# prometheus.storage sets the size of persistent storage for prometheus
+  # prometheus.storage sets the size of persistent storage for prometheus
   storage: "10Gi"
-# prometheus.resources sets the k8s resource requests and limits for prometheus
+  # prometheus.resources sets the k8s resource requests and limits for prometheus
   resources:
     enabled: false
     requests:
@@ -148,9 +152,9 @@ prometheus:
     limits:
       cpu: "1000m"
       memory: "8Gi"
-# prometheus.podDisruptionBudget configures the PodDisruptionBudget for high availability
+  # prometheus.podDisruptionBudget configures the PodDisruptionBudget for high availability
   podDisruptionBudget:
     enabled: false
     minAvailable: 1
-# prometheus.scrapeInterval sets the scraping interval for prometheus
+  # prometheus.scrapeInterval sets the scraping interval for prometheus
   scrapeInterval: "10s"
